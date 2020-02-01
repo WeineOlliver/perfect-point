@@ -3,6 +3,7 @@
     "start": "node src/index.js"
   },
   "dependencies": {
+    "cron": "^1.8.2",
     "dotenv": "^8.2.0",
     "puppeteer": "^2.1.0",
     "twilio": "^3.39.3"

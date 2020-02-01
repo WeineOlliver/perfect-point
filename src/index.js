@@ -1,5 +1,6 @@
 const dotenv = require('dotenv');
 dotenv.config();
+const { CronJob } = require('cron');
 const puppeeteer = require('puppeteer');
 const client = require('twilio')(
   process.env.TWILIO_SID,
@@ -45,7 +46,7 @@ const perfectPoint = async () => {
       delay: 15
     });
     await page.click('input#password_i');
-    await page.keyboard.type('xzxzxz', {
+    await page.keyboard.type(process.env.PONTO_PASSWORD, {
       delay: 15
     });
     await page.click('button#botao_entrar');
@@ -54,7 +55,17 @@ const perfectPoint = async () => {
   }
 };
 const init = () => {
-  perfectPoint();
+  const randomNumber = Math.floor(Math.random() * 9) + 1;
+  const job = new CronJob(
+    `${randomNumber} 10,19 * * MON-FRI`,
+    () => {
+      perfectPoint();
+    },
+    null,
+    true,
+    'America/Sao_Paulo'
+  );
+  job.start();
 };
 
 init();
