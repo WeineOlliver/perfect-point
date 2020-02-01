@@ -5,6 +5,8 @@
 
 FROM node:10.17.0-slim@sha256:17df3b18bc0f1d3ebccbd91e8ca8e2b06d67cb4dc6ca55e8c09c36c39fd4535d
     
+WORKDIR /usr/app
+
 RUN  apt-get update \
      # Install latest chrome dev package, which installs the necessary libs to
      # make the bundled version of Chromium that Puppeteer installs work.
@@ -18,5 +20,9 @@ RUN  apt-get update \
      && chmod +x /usr/sbin/wait-for-it.sh
 
 # Install Puppeteer under /node_modules so it's available system-wide
-ADD package.json package-lock.json /
-RUN npm install
+ADD package.json yarn.lock ./
+RUN yarn
+
+COPY . .
+
+CMD ["yarn", "start"]
